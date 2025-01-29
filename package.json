@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "npx cucumber-js --format=json:reports/cucumber-report.json"
+     "test": "npx cucumber-js --format html:reports/cucumber-report.html"
   },
   "keywords": [],
   "author": "",
