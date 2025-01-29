@@ -25,8 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright using GitHub Action
+        uses: microsoft/playwright-github-action@v1
 
       - name: Run Cucumber Playwright tests
         run: npm test
@@ -36,10 +36,11 @@ jobs:
         with:
           name: cucumber-reports
           path: reports/
+
       - name: Deploy HTML Report to GitHub Pages
+        if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
-            github_token: ${{ secrets.BDDTOKEN }}
-            publish_dir: reports/
-
-          
+          github_token: ${{ secrets.BDDTOKEN }}
+          publish_dir: reports/
+          publish_branch: gh-pages
