@@ -30,7 +30,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Cucumber Playwright Tests
-        run: npx cucumber-js --import step-definitions/**/*.js --import support/**/*.js --format @cucumber/pretty-formatter
+        run: npx cucumber-js --require step-definitions/**/*.js --require support/**/*.js --format @cucumber/pretty-formatter
 
       - name: Upload Cucumber Reports (JSON & JUnit)
         uses: actions/upload-artifact@v3
