@@ -1,7 +1,6 @@
-const { Given, When, Then } = require('@cucumber/cucumber');
-const { expect } = require('chai');
-const { chromium } = require('playwright');
-
+import { Given, When, Then } from '@cucumber/cucumber';
+import { expect } from 'chai';
+import { chromium } from 'playwright';
 let browser, page;
 
 Given('I open the saucelab website', async function () {

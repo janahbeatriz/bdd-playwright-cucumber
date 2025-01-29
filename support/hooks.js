@@ -1,5 +1,5 @@
-const { Before, After } = require('@cucumber/cucumber');
-const { chromium } = require('playwright');
+import { Before, After } from '@cucumber/cucumber';
+import { chromium } from 'playwright';
 
 let browser, page;
 
