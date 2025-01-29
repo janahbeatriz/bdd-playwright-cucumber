@@ -22,9 +22,14 @@ jobs:
         with:
           node-version: 18  # Adjust if necessary
 
+      - name: Install System Dependencies
+        run: sudo apt-get update && sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgbm1 libasound2
+
       - name: Install dependencies (Cucumber, Playwright, Gherkin, Chai)
-        run: |
-          npm install @cucumber/cucumber playwright @cucumber/pretty-formatter chai
+        run: npm install --save-dev @cucumber/cucumber playwright @cucumber/pretty-formatter chai
+
+      - name: Grant Playwright Permission
+        run: chmod +x node_modules/.bin/playwright
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -42,6 +47,6 @@ jobs:
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.BDDTOKEN }}
+          github_token: ${{ secrets.BDDTOKEN }}  # Changed from BDDTOKEN
           publish_dir: reports/
           publish_branch: gh-pages
