@@ -22,26 +22,22 @@ jobs:
         with:
           node-version: 18  # Adjust if necessary
 
-      - name: Print Node.js and npm versions
-        run: |
-          node -v
-          npm -v
-
-      - name: Install dependencies (Cucumber, Playwright, Chai)
+      - name: Install dependencies (Cucumber, Playwright, Gherkin, Chai)
         run: |
           npm install @cucumber/cucumber playwright @cucumber/pretty-formatter chai
-          npm install -g @cucumber/cucumber  # Install cucumber-js globally
 
-      - name: Grant execute permission to cucumber-js
-        run: chmod +x node_modules/.bin/cucumber-js
+      - name: Grant Execution Permission for Cucumber & Playwright
+        run: |
+          chmod +x node_modules/.bin/cucumber-js
+          chmod +x node_modules/.bin/playwright
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Cucumber Playwright tests
-        run: npx cucumber-js --require step-definitions/**/*.js --require support/**/*.js
+      - name: Run Cucumber Playwright Tests
+        run: npx cucumber-js --require step-definitions/**/*.js --require support/**/*.js --format @cucumber/pretty-formatter
 
-      - name: Upload Test Reports (JSON & JUnit)
+      - name: Upload Cucumber Reports (JSON & JUnit)
         uses: actions/upload-artifact@v3
         with:
           name: cucumber-reports
