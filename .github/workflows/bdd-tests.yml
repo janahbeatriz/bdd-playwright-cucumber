@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04  # Change from ubuntu-latest to ubuntu-22.04
+    runs-on: ubuntu-22.04  # Ensures a stable environment
 
     steps:
       - name: Checkout repository
@@ -20,22 +20,24 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Adjust if necessary
+          node-version: 18  # Ensure compatibility with Playwright & Cucumber
 
       - name: Install System Dependencies
-        run: sudo apt-get update && sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgbm1 libasound2
+        run: |
+          sudo apt-get update && sudo apt-get install -y \
+          libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libgbm1 libasound2
 
       - name: Install dependencies (Cucumber, Playwright, Gherkin, Chai)
-        run: npm install --save-dev @cucumber/cucumber playwright @cucumber/pretty-formatter chai
+        run: npm ci  # Ensures a clean and consistent install
 
-      - name: Grant Playwright Permission
-        run: chmod +x node_modules/.bin/playwright
+      - name: Grant Execution Permissions
+        run: chmod +x node_modules/.bin/*
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run Cucumber Playwright Tests
-        run: npx cucumber-js --require step-definitions/**/*.js --require support/**/*.js --format @cucumber/pretty-formatter
+        run: npx --no-install cucumber-js --require step-definitions/**/*.js --require support/**/*.js --format @cucumber/pretty-formatter
 
       - name: Upload Cucumber Reports (JSON & JUnit)
         uses: actions/upload-artifact@v3
@@ -47,6 +49,6 @@ jobs:
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.BDDTOKEN }}  # Changed from BDDTOKEN
+          github_token: ${{ secrets.BDDTOKEN }}
           publish_dir: reports/
           publish_branch: gh-pages
