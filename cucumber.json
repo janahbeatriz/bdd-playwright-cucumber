@@ -1,0 +1,6 @@
+{
+    "default": {
+      "format": ["@cucumber/pretty-formatter"],
+      "require": ["step-definitions/*.js", "support/*.js"]
+    }
+}
